@@ -18,9 +18,10 @@ jobs:
         run: |
           [ -f devbox.json ] || devbox init
           devbox add cmake
-          devbox install
           mkdir -p build
+          cp devbox.* build/
           cd build && devbox run cmake .. && make
       - name: Test
         run: |
-          cd build && devbox run make test
+          devbox run make test
+        working-directory: build
