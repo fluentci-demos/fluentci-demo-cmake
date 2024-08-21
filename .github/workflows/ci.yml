@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup FluentCI
+        uses: fluentci-io/setup-fluentci@v5
+        with:
+          wasm: true
+          plugin: devbox
+          args: setup
+      - name: Build
+        run: |
+          [ -f devbox.json ] || devbox init
+          devbox add cmake
+          devbox install
+          mkdir -p build
+          cd build && devbox run cmake .. && make
+      - name: Test
+        run: |
+          cd build && devbox run make test
