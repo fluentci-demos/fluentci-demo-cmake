@@ -8,20 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup FluentCI
+      - name: Build and Test
         uses: fluentci-io/setup-fluentci@v5
         with:
           wasm: true
-          plugin: devbox
-          args: setup
-      - name: Build
-        run: |
-          [ -f devbox.json ] || devbox init
-          devbox add cmake
-          mkdir -p build
-          cp devbox.* build/
-          cd build && devbox run cmake .. && make
-      - name: Test
-        run: |
-          devbox run make test
-        working-directory: build
+          plugin: cmake
+          args: |
+            generate
+            make
+            make test
