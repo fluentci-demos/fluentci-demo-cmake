@@ -2,6 +2,7 @@
 name = "Run tests"
 command = [
   "fluentci run --wasm cmake generate",
+  "fluentci run --wasm cmake make",
   "fluentci run --wasm cmake make test",
 ]
 
